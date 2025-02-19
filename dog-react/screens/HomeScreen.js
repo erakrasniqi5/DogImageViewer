@@ -1,75 +1,197 @@
-import React ,{useEffect,useState} from 'react';
-
-import { View, Text , Image,StyleSheet,ActivityIndicator} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { 
+  View, Text, Image, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView 
+} from 'react-native';
 
 const HomeScreen = () => {
-
   const [dogImage, setDogImage] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(true);
+  const [funFact, setFunFact] = useState('');
+  const [featuredBreed, setFeaturedBreed] = useState('');
+  const [featuredBreedImage, setFeaturedBreedImage] = useState(null);
+  const [loadingBreed, setLoadingBreed] = useState(true);
 
+  const dogFunFacts = [
+    "Dogs can smell thousands of times better than humans! 👃",
+    "A Greyhound can run up to 45 mph! 🏃‍♂️",
+    "Dalmatian puppies are born pure white and get their spots later! 🖤",
+    "Dogs wag their tails differently depending on their mood! 🐕",
+    "The Basenji dog doesn’t bark, but it yodels! 🎶",
+    "A dog's nose print is unique, just like a human fingerprint! 🐾",
+    "Corgis were originally bred to herd cattle! 🐄",
+    "Chow Chows have blue-black tongues! 😛",
+    "The world's smallest dog breed is the Chihuahua! 🐶",
+    "Dogs have three eyelids! 👀"
+  ];
+
+  const fetchRandomFact = () => {
+    setFunFact(dogFunFacts[Math.floor(Math.random() * dogFunFacts.length)]);
+  };
+
+  const fetchDogImage = async () => {
+    setLoadingImage(true);
+    try {
+      const response = await fetch('https://dog.ceo/api/breeds/image/random');
+      const data = await response.json();
+      setDogImage(data.message);
+    } catch (error) {
+      console.error(error);
+    }
+    setLoadingImage(false);
+  };
+
+  const fetchFeaturedBreed = async () => {
+    setLoadingBreed(true);
+    try {
+      const response = await fetch('https://dog.ceo/api/breeds/list/all');
+      const data = await response.json();
+      const breeds = Object.keys(data.message);
+      const randomBreed = breeds[Math.floor(Math.random() * breeds.length)];
+      setFeaturedBreed(randomBreed);
+
+      const breedImageResponse = await fetch(`https://dog.ceo/api/breed/${randomBreed}/images/random`);
+      const breedImageData = await breedImageResponse.json();
+      setFeaturedBreedImage(breedImageData.message);
+    } catch (error) {
+      console.error(error);
+    }
+    setLoadingBreed(false);
+  };
 
   useEffect(() => {
-    const fetchDogImage = async () => {
-      try {
-        const response = await fetch('https://dog.ceo/api/breeds/image/random');
-        const data = await response.json();
-        setDogImage(data.message); // The API response contains the image URL in 'message'
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    };
-
-
     fetchDogImage();
+    fetchFeaturedBreed();
+    fetchRandomFact();
   }, []);
 
-  // While the image is loading, show a loading indicator
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Loading...</Text>
-      </View>
-    );
-
-
-
-
   return (
-    <View style={styles.container}>
-      {dogImage ? (
-        <>
-          <Text style={styles.title}>Random Dog Image</Text>
-          <Image source={{ uri: dogImage }} style={styles.dogImage} />
-        </>
-      ) : (
-        <Text>Error loading dog image</Text>
-      )}
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Welcome Banner */}
+      <Text style={styles.banner}>🐾 Welcome to Dog Explorer! 🐾</Text>
+
+      {/* Fun Fact Section */}
+      <View style={styles.factBox}>
+        <Text style={styles.factText}>Did you know? 🤔</Text>
+        <Text style={styles.factDetail}>{funFact}</Text>
+        <TouchableOpacity style={styles.factButton} onPress={fetchRandomFact}>
+          <Text style={styles.factButtonText}>Fetch New Fact 🔄</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Horizontal Layout for Random Dog Image & Breed of the Day */}
+      <View style={styles.horizontalContainer}>
+        {/* Random Dog Image */}
+        <View style={styles.imageBox}>
+          <Text style={styles.sectionTitle}>🐶 Random Dog 🐶</Text>
+          {loadingImage ? (
+            <ActivityIndicator size="large" color="#ff6347" />
+          ) : (
+            dogImage && <Image source={{ uri: dogImage }} style={styles.dogImage} />
+          )}
+        </View>
+
+        {/* Breed of the Day */}
+        <View style={styles.imageBox}>
+          <Text style={styles.sectionTitle}>🌟 Breed of the Day 🌟</Text>
+          {loadingBreed ? (
+            <ActivityIndicator size="large" color="#ff6347" />
+          ) : (
+            featuredBreedImage && (
+              <>
+                <Image source={{ uri: featuredBreedImage }} style={styles.dogImage} />
+                <Text style={styles.breedText}>{featuredBreed.toUpperCase()}</Text>
+              </>
+            )
+          )}
+        </View>
+      </View>
+    </ScrollView>
   );
 };
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  
-};
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    flexGrow: 1,
     alignItems: 'center',
     padding: 16,
+    backgroundColor: '#fef8e6', // Light warm background
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 16,
+  banner: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginVertical: 20,
+    color: '#ff4500',
+    textAlign: 'center',
+    textShadowColor: '#ffcc00',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 5,
+  },
+  factBox: {
+    backgroundColor: '#ffeb99',
+    padding: 14,
+    borderRadius: 10,
+    marginBottom: 20,
+    width: '90%',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  factText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  factDetail: {
+    fontSize: 18,
+    marginTop: 8,
+    textAlign: 'center',
+    color: '#333',
+  },
+  factButton: {
+    backgroundColor: '#ff4500',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 12,
+  },
+  factButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  horizontalContainer: {
+    flexDirection: 'row', // Arrange items horizontally
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 16,
+  },
+  imageBox: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+    color: '#333',
+    textDecorationLine: 'underline',
   },
   dogImage: {
-    width: 300,
-    height: 300,
-    borderRadius: 8,
+    width: 180,
+    height: 180,
+    borderRadius: 15,
+    borderWidth: 3,
+    borderColor: '#ff4500',
+    marginBottom: 10,
+  },
+  breedText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#555',
+    textAlign: 'center',
   },
 });
 

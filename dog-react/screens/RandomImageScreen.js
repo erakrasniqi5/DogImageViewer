@@ -20,11 +20,13 @@ const RandomImageScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>🐾 Random Dog 🐾</Text>
+      
       {loading ? (
-        <ActivityIndicator size="large" color="#ff6347" />
+        <ActivityIndicator size="large" color="#ff1493" />
       ) : (
         image && <Image source={{ uri: image }} style={styles.image} />
       )}
+      
       <TouchableOpacity style={styles.button} onPress={fetchRandomImage}>
         <Text style={styles.buttonText}>Get Random Image</Text>
       </TouchableOpacity>
@@ -38,24 +40,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#ffe6f7', // Soft pink background
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 24,
+    color: '#ff1493', // Bright pink for title
+    textAlign: 'center',
+    textShadowColor: '#ff69b4', // Soft shadow for better visibility
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5,
   },
   image: {
-    width: 300,
-    height: 300,
-    borderRadius: 12,
-    marginBottom: 16,
+    width: 280,
+    height: 280,
+    borderRadius: 16,
+    marginBottom: 24,
+    borderWidth: 4,
+    borderColor: '#ff1493', // Pink border around the image
   },
   button: {
-    backgroundColor: '#ff6347',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
+    backgroundColor: '#ff1493', // Pink button
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    shadowColor: '#ff69b4',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
   buttonText: {
     color: '#fff',

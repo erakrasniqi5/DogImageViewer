@@ -27,6 +27,23 @@ export default function App() {
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
+          tabBarActiveTintColor: '#ff1493', // Pink color for active tab
+          tabBarInactiveTintColor: '#ff80bf', // Lighter pink for inactive tabs
+          tabBarStyle: {
+            backgroundColor: '#ffe6f7', // Soft pink background for the tab bar
+            borderTopWidth: 0, // Remove top border
+          },
+          tabBarLabelStyle: {
+            fontSize: 12, // Slightly smaller label font
+            fontWeight: 'bold',
+          },
+          headerStyle: {
+            backgroundColor: '#ff1493', // Pink background for the navigation bar
+          },
+          headerTintColor: '#fff', // White color for header text/icons
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
@@ -36,3 +53,4 @@ export default function App() {
     </NavigationContainer>
   );
 }
+

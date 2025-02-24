@@ -84,7 +84,7 @@ const HomeScreen = () => {
         <View style={styles.imageBox}>
           <Text style={styles.sectionTitle}>🐶 Random Dog 🐶</Text>
           {loadingImage ? (
-            <ActivityIndicator size="large" color="#ff6347" />
+            <ActivityIndicator size="large" color="#ff69b4" />
           ) : (
             dogImage && <Image source={{ uri: dogImage }} style={styles.dogImage} />
           )}
@@ -94,7 +94,7 @@ const HomeScreen = () => {
         <View style={styles.imageBox}>
           <Text style={styles.sectionTitle}>🌟 Breed of the Day 🌟</Text>
           {loadingBreed ? (
-            <ActivityIndicator size="large" color="#ff6347" />
+            <ActivityIndicator size="large" color="#ff69b4" />
           ) : (
             featuredBreedImage && (
               <>
@@ -114,23 +114,23 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#fef8e6', // Light warm background
+    backgroundColor: '#ffe6f7', // Soft pink background
   },
   banner: {
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: 'bold',
     marginVertical: 20,
-    color: '#ff4500',
+    color: '#ff1493', // Pink with a touch of vibrance
     textAlign: 'center',
-    textShadowColor: '#ffcc00',
+    textShadowColor: '#ff69b4', // Add a soft shadow for contrast
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 5,
   },
   factBox: {
-    backgroundColor: '#ffeb99',
-    padding: 14,
-    borderRadius: 10,
-    marginBottom: 20,
+    backgroundColor: '#ffb6c1', // Light pink for fact box
+    padding: 20,
+    borderRadius: 15,
+    marginBottom: 30,
     width: '90%',
     alignItems: 'center',
     shadowColor: '#000',
@@ -140,8 +140,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   factText: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
+    color: '#ff1493',
   },
   factDetail: {
     fontSize: 18,
@@ -150,9 +151,9 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   factButton: {
-    backgroundColor: '#ff4500',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: '#ff1493',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     borderRadius: 8,
     marginTop: 12,
   },
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   horizontalContainer: {
-    flexDirection: 'row', // Arrange items horizontally
+    flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: 16,
@@ -170,27 +171,28 @@ const styles = StyleSheet.create({
   imageBox: {
     flex: 1,
     alignItems: 'center',
+    marginHorizontal: 10,
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 12,
     textAlign: 'center',
-    color: '#333',
+    color: '#ff1493',
     textDecorationLine: 'underline',
   },
   dogImage: {
     width: 180,
     height: 180,
-    borderRadius: 15,
-    borderWidth: 3,
-    borderColor: '#ff4500',
-    marginBottom: 10,
+    borderRadius: 20,
+    borderWidth: 4,
+    borderColor: '#ff1493', // Pink border for a sleek effect
+    marginBottom: 12,
   },
   breedText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#555',
+    color: '#ff1493',
     textAlign: 'center',
   },
 });
